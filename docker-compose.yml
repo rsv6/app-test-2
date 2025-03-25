@@ -1,0 +1,23 @@
+services: 
+  app_testdup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_testdup
+    networks:
+      - web
+    ports:
+      - "3002:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.apptestdup.rule=Host(`apptestdup.srvieira.com.br`)"
+      - "traefik.http.routers.apptestdup.entrypoints=websecure"
+      - "traefik.http.routers.apptestdup.tls=true"
+      - "traefik.http.routers.apptestdup.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.apptestdup.loadbalancer.server.port=80"
+      - "traefik.docker.network=web"
+    
+
+networks:
+  web:
+    external: true
